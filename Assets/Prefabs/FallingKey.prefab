@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3258239195642909723}
   - component: {fileID: 3258239195642909721}
   m_Layer: 5
-  m_Name: Image
+  m_Name: FallingKey
   m_TagString: Falling
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &3258239195642909720
 CanvasRenderer:
@@ -91,7 +91,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 100}
+  m_Offset: {x: 0, y: -10}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -102,7 +102,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 200, y: 200}
+  m_Size: {x: 150, y: 150}
   m_EdgeRadius: 0
 --- !u!50 &3258239195642909723
 Rigidbody2D:
@@ -138,10 +138,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 0}
+  _spriteArray:
+  - {fileID: 21300000, guid: 13b6f93fc2f057f4ab698e139b289bfe, type: 3}
+  - {fileID: 21300000, guid: 1b7e0443c2ceced4f8f5fda65bceb2a7, type: 3}
+  - {fileID: 21300000, guid: 409a522e1dc89804a94e079bad6ba7b6, type: 3}
+  - {fileID: 21300000, guid: 3329ca832b710fc4fbfe38e2557a3ad1, type: 3}
   FallingSpeed: 10
   Type: 0
-  _spriteArray:
-  - {fileID: 21300000, guid: b3ad549a60a136c42a8562d594df13b1, type: 3}
-  - {fileID: 21300000, guid: 6cf5e529b293a9344b5a84fdf1190e99, type: 3}
-  - {fileID: 21300000, guid: bcadd7b508c94d244bcda583fa5a5543, type: 3}
-  - {fileID: 21300000, guid: 390fe815626619347b895c06315527fd, type: 3}
