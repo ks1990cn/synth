@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Falling
   - Bottom
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -12,15 +12,32 @@ public class GameController : MonoBehaviour
     [SerializeField] private int _enemyHp = 0;
 
     [SerializeField] private int _combo = 0;
-
     [SerializeField] private int _score = 0;
-    
+
+    [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _enemy;
+
     void Start()
     {
         InvokeRepeating("SpawnFalling", 0f, 1f / 2);
 
         _playerHp = _maxPlayerHp;
         _enemyHp = _maxEnemyHp;
+
+        if (_player == null)
+        {
+            _player = GameObject.FindGameObjectWithTag("Player");
+        }
+        
+        if (_enemy == null)
+        {
+            _enemy = GameObject.FindGameObjectWithTag("Enemy");
+        }
+        
+        _enemy.GetComponent<Animator>().ResetTrigger("Attack");
+        _enemy.GetComponent<Animator>().ResetTrigger("Hit");
+        _player.GetComponent<Animator>().ResetTrigger("Attack");
+        _player.GetComponent<Animator>().ResetTrigger("Hit");
     }
 
     private void SpawnFalling()
@@ -34,6 +51,9 @@ public class GameController : MonoBehaviour
         _playerHp--;
 
         _combo = 0;
+        
+        _enemy.GetComponent<Animator>().SetTrigger("Attack");
+        _player.GetComponent<Animator>().SetTrigger("Hit");
     }
 
     public void OnPlayerAttack()
@@ -43,6 +63,9 @@ public class GameController : MonoBehaviour
         _combo++;
 
         _score += _combo * 10;
+        
+        _enemy.GetComponent<Animator>().SetTrigger("Hit");
+        _player.GetComponent<Animator>().SetTrigger("Attack");
     }
     
     private void FixedUpdate()
