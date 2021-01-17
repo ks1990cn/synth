@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -16,6 +17,12 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _enemy;
+
+    [SerializeField] private Image _playerBar;
+    [SerializeField] private Image _enemyBar;
+
+    [SerializeField] private Text _scoreText;
+    [SerializeField] private Text _comboText;
 
     void Start()
     {
@@ -79,5 +86,11 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Win");
         }
+        
+        _playerBar.rectTransform.sizeDelta = new Vector2(160f * ((float)_playerHp / (float)_maxPlayerHp), 32f);
+        _enemyBar.rectTransform.sizeDelta = new Vector2(160f * ((float)_enemyHp / (float)_maxEnemyHp), 32f);
+
+        _scoreText.text = "Score: " + _score;
+        _comboText.text = "Combo! x" + _combo;
     }
 }
