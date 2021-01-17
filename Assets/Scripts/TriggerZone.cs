@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TriggerZone : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class TriggerZone : MonoBehaviour
     {
         if (!other.CompareTag("Falling")) return;
         _fallingKey = other.GetComponent<FallingKey>();
+        _fallingKey.gameObject.GetComponent<Image>().color = new Color32(255,255,255,255);
+        gameObject.GetComponent<Image>().color = new Color32(255,255,255,255);
     }
 
     private void Update()
@@ -44,5 +47,6 @@ public class TriggerZone : MonoBehaviour
         
         Destroy(_fallingKey.gameObject);
         _fallingKey = null;
+        gameObject.GetComponent<Image>().color = new Color32(255,255,255,125);
     }
 }
