@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.01.00">
 	<object class="AudioFile" id="{7cb9a9f7-ee4d-4053-b6e2-f10b81d9fe75}">
 		<property name="assetPath">
-			<value>epic.wav</value>
+			<value>Music/epic.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{7b11f602-5102-4543-a910-3b8b5786af51}">
+		<property name="assetPath">
+			<value>Sounds/State/you_win.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>2.1826757369614511</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{1da96389-2141-43d5-a18e-3be922c1f219}</destination>
+		</relationship>
+	</object>
+</objects>
