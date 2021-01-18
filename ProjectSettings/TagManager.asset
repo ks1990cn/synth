@@ -8,6 +8,7 @@ TagManager:
   - Bottom
   - Enemy
   - StageIndicator
+  - AudioController
   layers:
   - Default
   - TransparentFX

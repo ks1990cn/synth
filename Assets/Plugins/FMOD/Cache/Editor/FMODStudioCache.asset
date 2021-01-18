@@ -105,6 +105,7 @@ MonoBehaviour:
   guid: 71c8c0bbef15344881c686f968616e4d
   Banks:
   - {fileID: -5314876106926414317}
+  - {fileID: -6366707178870147710}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -127,7 +128,7 @@ MonoBehaviour:
   Path: Assets/synth/Build/Desktop/Menu.bank
   Name: Menu
   StudioPath: bank:/Menu
-  lastModified: 637465243978225378
+  lastModified: 637465316614093852
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -146,7 +147,7 @@ MonoBehaviour:
   Path: Assets/synth/Build/Desktop/Gameplay.bank
   Name: Gameplay
   StudioPath: bank:/Gameplay
-  lastModified: 637465243969369258
+  lastModified: 637465316613813865
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -234,12 +235,35 @@ MonoBehaviour:
   Path: Assets/synth/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637465243969649271
+  lastModified: 637465316613884126
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 1604
+    Value: 1640
   Exists: 1
+--- !u!114 &-3515420304460460099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Other/Click
+  m_EditorClassIdentifier: 
+  Path: event:/Other/Click
+  guid: 0a12fa026a663e46aa8160ce841d6092
+  Banks:
+  - {fileID: -6366707178870147710}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 289
 --- !u!114 &-2573823005781977113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +353,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: -7431663462950679703}
+  - {fileID: 3902707784996303036}
   MinDistance: 0
   MaxDistance: 0
   Length: 128000
@@ -417,7 +441,7 @@ MonoBehaviour:
   Path: Assets/synth/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637465243969539502
+  lastModified: 637465316613853888
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -456,12 +480,13 @@ MonoBehaviour:
   - {fileID: -8382109817787771034}
   - {fileID: -2039168740758219156}
   - {fileID: -5035379551290224199}
+  - {fileID: -3515420304460460099}
   EditorParameters: []
   MasterBanks:
   - {fileID: -325305363108338146}
   StringsBanks:
   - {fileID: -3837441147395456212}
-  stringsBankWriteTime: 637465243969649271
+  stringsBankWriteTime: 637465316613884126
   cacheVersion: 6
 --- !u!114 &152953313361777948
 MonoBehaviour:
@@ -509,6 +534,46 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 2182
+--- !u!114 &3902707784996303036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Battle/Intensity
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
+--- !u!114 &6310775362823512687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Battle/Intensity
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 0
 --- !u!114 &6917571084533038143
 MonoBehaviour:
   m_ObjectHideFlags: 0
