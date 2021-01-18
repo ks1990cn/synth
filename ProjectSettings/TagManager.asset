@@ -7,6 +7,7 @@ TagManager:
   - Falling
   - Bottom
   - Enemy
+  - StageIndicator
   layers:
   - Default
   - TransparentFX

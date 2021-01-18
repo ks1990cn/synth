@@ -22,14 +22,14 @@ public class FadeOut : MonoBehaviour
             
             if (_image.color.a > 0)
             {
-                _image.color = new Color(0, 0, 0, _image.color.a - 0.002f);
+                _image.color = new Color(0, 0, 0, _image.color.a - 0.01f);
             }
         }
         else
         {
             if (_image.color.a < 255)
             {
-                _image.color = new Color(0, 0, 0, _image.color.a + 0.002f);
+                _image.color = new Color(0, 0, 0, _image.color.a + 0.01f);
             }
         }
     }
