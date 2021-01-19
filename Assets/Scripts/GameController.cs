@@ -9,37 +9,44 @@ public class GameController : MonoBehaviour
     public GameObject FallingKeyPrefab;
     public Canvas MainCanvas;
 
+    [Header("Player Health")]
     [SerializeField] private int _maxPlayerHp = 10;
     [SerializeField] private int _playerHp;
 
+    [Header("Enemy Health")]
     [SerializeField] private int _maxEnemyHp = 100;
     [SerializeField] private int _enemyHp;
 
+    [Header("Score")]
     [SerializeField] private int _combo;
     [SerializeField] private int _score;
     [SerializeField] private int _caught;
 
+    [Header("Animated Objects")]
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _enemy;
 
+    [Header("UI")]
     [SerializeField] private Image _playerBar;
     [SerializeField] private Image _enemyBar;
-
     [SerializeField] private Text _scoreText;
     [SerializeField] private Text _comboText;
 
+    [Header("Progress")]
     [SerializeField] private int _stage;
     [SerializeField] private int _fallingDensity = 10;
     [SerializeField] private int _spawnCounter;
     [SerializeField] private int _spawnRate = 10;
-
-    [SerializeField] private float _prepareTimer = 5f;
-    [SerializeField] private StageIndicator _stageIndicator;
-
+    
+    [Header("Audio")]
     [SerializeField] private StudioEventEmitter _battleMusicEventEmitter;
     [SerializeField] private PostProcessVolume _postProcessVolume;
+    
+    [Header("Misc")]
+    [SerializeField] private float _prepareTimer = 5f;
+    [SerializeField] private StageIndicator _stageIndicator;
     [SerializeField] private GameObject _fadeIn;
-
+    
     private void Start()
     {
         InvokeRepeating("SpawnFalling", 0f, 1f / _spawnRate);
