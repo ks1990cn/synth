@@ -1,5 +1,6 @@
 using FMODUnity;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -9,14 +10,14 @@ public class GameController : MonoBehaviour
     public Canvas MainCanvas;
 
     [SerializeField] private int _maxPlayerHp = 10;
-    [SerializeField] private int _playerHp = 0;
-    
-    [SerializeField] private int _maxEnemyHp = 100;
-    [SerializeField] private int _enemyHp = 0;
+    [SerializeField] private int _playerHp;
 
-    [SerializeField] private int _combo = 0;
-    [SerializeField] private int _score = 0;
-    [SerializeField] private int _caught = 0;
+    [SerializeField] private int _maxEnemyHp = 100;
+    [SerializeField] private int _enemyHp;
+
+    [SerializeField] private int _combo;
+    [SerializeField] private int _score;
+    [SerializeField] private int _caught;
 
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _enemy;
@@ -27,18 +28,19 @@ public class GameController : MonoBehaviour
     [SerializeField] private Text _scoreText;
     [SerializeField] private Text _comboText;
 
-    [SerializeField] private int _stage = 0;
+    [SerializeField] private int _stage;
     [SerializeField] private int _fallingDensity = 10;
-    [SerializeField] private int _spawnCounter = 0;
+    [SerializeField] private int _spawnCounter;
     [SerializeField] private int _spawnRate = 10;
 
     [SerializeField] private float _prepareTimer = 5f;
     [SerializeField] private StageIndicator _stageIndicator;
 
     [SerializeField] private StudioEventEmitter _battleMusicEventEmitter;
+    [SerializeField] private PostProcessVolume _postProcessVolume;
     [SerializeField] private GameObject _fadeIn;
 
-    void Start()
+    private void Start()
     {
         InvokeRepeating("SpawnFalling", 0f, 1f / _spawnRate);
         InvokeRepeating("DecreaseTimer", 0f, 1f / 10);
@@ -46,25 +48,19 @@ public class GameController : MonoBehaviour
         _playerHp = _maxPlayerHp;
         _enemyHp = _maxEnemyHp;
 
-        if (_player == null)
-        {
-            _player = GameObject.FindGameObjectWithTag("Player");
-        }
-        
-        if (_enemy == null)
-        {
-            _enemy = GameObject.FindGameObjectWithTag("Enemy");
-        }        
-        
+        if (_player == null) _player = GameObject.FindGameObjectWithTag("Player");
+
+        if (_enemy == null) _enemy = GameObject.FindGameObjectWithTag("Enemy");
+
         if (_stageIndicator == null)
-        {
             _stageIndicator = GameObject.FindGameObjectWithTag("StageIndicator").GetComponent<StageIndicator>();
-        }
 
         if (_battleMusicEventEmitter == null)
-        {
-            _battleMusicEventEmitter = GameObject.FindGameObjectWithTag("AudioController").GetComponent<StudioEventEmitter>();
-        }
+            _battleMusicEventEmitter =
+                GameObject.FindGameObjectWithTag("AudioController").GetComponent<StudioEventEmitter>();
+
+        if (_postProcessVolume == null)
+            _postProcessVolume = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PostProcessVolume>();
 
         _enemy.GetComponent<Animator>().ResetTrigger("Attack");
         _enemy.GetComponent<Animator>().ResetTrigger("Hit");
@@ -72,80 +68,26 @@ public class GameController : MonoBehaviour
         _player.GetComponent<Animator>().ResetTrigger("Hit");
     }
 
-    private void SpawnFalling()
-    {
-        if (_prepareTimer <= 0)
-        {
-            _spawnCounter--;
-
-            if (_spawnCounter <= 0)
-            {
-                GameObject newObject = Instantiate(FallingKeyPrefab, MainCanvas.transform);
-                newObject.transform.SetParent(MainCanvas.transform);
-                _spawnCounter = _fallingDensity;
-            }
-        }
-    }
-
-    public void OnEnemyAttack()
-    {
-        _playerHp--;
-
-        _combo = 0;
-        
-        _enemy.GetComponent<Animator>().SetTrigger("Attack");
-        _player.GetComponent<Animator>().SetTrigger("Hit");
-        RuntimeManager.PlayOneShot("event:/Other/Punch");
-    }
-
-    public void OnPlayerAttack()
-    {
-        _enemyHp--;
-
-        _combo++;
-        _caught++;
-
-        _score += _combo * 10;
-        
-        _enemy.GetComponent<Animator>().SetTrigger("Hit");
-        _player.GetComponent<Animator>().SetTrigger("Attack");
-        RuntimeManager.PlayOneShot("event:/Other/Punch");
-        
-        if (_combo == 5)
-        {
-            RuntimeManager.PlayOneShot("event:/Combo/Good");
-        } 
-        else if (_combo == 10)
-        {
-            RuntimeManager.PlayOneShot("event:/Combo/Sweet");
-        }
-        else if (_combo == 15)
-        {
-            RuntimeManager.PlayOneShot("event:/Combo/Crazy");
-        }
-        else if (_combo == 20)
-        {
-            RuntimeManager.PlayOneShot("event:/Combo/Brutal");
-        }
-        else if (_combo == 25)
-        {
-            RuntimeManager.PlayOneShot("event:/Combo/Savage");
-        }
-        else if (_combo == 30)
-        {
-            RuntimeManager.PlayOneShot("event:/Combo/Stylish");
-        }
-        else if (_combo == 35)
-        {
-            RuntimeManager.PlayOneShot("event:/Combo/Apocalyptic");
-        }
-    }
-    
     private void FixedUpdate()
     {
         _battleMusicEventEmitter.SetParameter("Intensity", _caught);
-        _playerBar.rectTransform.sizeDelta = new Vector2(160f * ((float)_playerHp / (float)_maxPlayerHp), 32f);
-        _enemyBar.rectTransform.sizeDelta = new Vector2(160f * ((float)_enemyHp / (float)_maxEnemyHp), 32f);
+        _battleMusicEventEmitter.SetParameter("Health", (float) _playerHp / _maxPlayerHp * 100f);
+        _battleMusicEventEmitter.SetParameter("Combo", (float) _combo / _maxEnemyHp * 100f);
+
+        ColorGrading colorGrading;
+        _postProcessVolume.profile.TryGetSettings(out colorGrading);
+
+        if (colorGrading != null && _playerHp <= _maxPlayerHp / 2)
+            colorGrading.saturation.value = -100 + (float) _playerHp / _maxPlayerHp * 100f;
+
+        ChromaticAberration chromaticAberration;
+        _postProcessVolume.profile.TryGetSettings(out chromaticAberration);
+
+        if (chromaticAberration != null && _playerHp <= _maxPlayerHp / 2)
+            chromaticAberration.intensity.value = 1 - (float) _playerHp / _maxPlayerHp;
+
+        _playerBar.rectTransform.sizeDelta = new Vector2(160f * ((float) _playerHp / _maxPlayerHp), 32f);
+        _enemyBar.rectTransform.sizeDelta = new Vector2(160f * ((float) _enemyHp / _maxEnemyHp), 32f);
 
         _scoreText.text = "Score: " + _score;
         _comboText.text = "Combo! x" + _combo;
@@ -157,7 +99,7 @@ public class GameController : MonoBehaviour
             _stage = 1;
             _fallingDensity = 10;
             RuntimeManager.PlayOneShot("event:/Stages/FirstStage");
-        } 
+        }
         else if (_stage == 1 && _caught >= 20)
         {
             _stageIndicator.Move("Second Stage!");
@@ -190,22 +132,75 @@ public class GameController : MonoBehaviour
             _stage = 4;
             RuntimeManager.PlayOneShot("event:/Other/GameOver");
             Invoke("FadeToMainMenu", 5f);
-            
         }
     }
 
-    void DecreaseTimer()
+    private void SpawnFalling()
+    {
+        if (_prepareTimer <= 0)
+        {
+            _spawnCounter--;
+
+            if (_spawnCounter <= 0)
+            {
+                GameObject newObject = Instantiate(FallingKeyPrefab, MainCanvas.transform);
+                newObject.transform.SetParent(MainCanvas.transform);
+                _spawnCounter = _fallingDensity;
+            }
+        }
+    }
+
+    public void OnEnemyAttack()
+    {
+        _playerHp--;
+
+        _combo = 0;
+
+        _enemy.GetComponent<Animator>().SetTrigger("Attack");
+        _player.GetComponent<Animator>().SetTrigger("Hit");
+        RuntimeManager.PlayOneShot("event:/Other/Punch");
+    }
+
+    public void OnPlayerAttack()
+    {
+        _enemyHp--;
+
+        _combo++;
+        _caught++;
+
+        _score += _combo * 10;
+
+        _enemy.GetComponent<Animator>().SetTrigger("Hit");
+        _player.GetComponent<Animator>().SetTrigger("Attack");
+        RuntimeManager.PlayOneShot("event:/Other/Punch");
+
+        if (_combo == 5)
+            RuntimeManager.PlayOneShot("event:/Combo/Good");
+        else if (_combo == 10)
+            RuntimeManager.PlayOneShot("event:/Combo/Sweet");
+        else if (_combo == 15)
+            RuntimeManager.PlayOneShot("event:/Combo/Crazy");
+        else if (_combo == 20)
+            RuntimeManager.PlayOneShot("event:/Combo/Brutal");
+        else if (_combo == 25)
+            RuntimeManager.PlayOneShot("event:/Combo/Savage");
+        else if (_combo == 30)
+            RuntimeManager.PlayOneShot("event:/Combo/Stylish");
+        else if (_combo == 35) RuntimeManager.PlayOneShot("event:/Combo/Apocalyptic");
+    }
+
+    private void DecreaseTimer()
     {
         _prepareTimer -= 0.1f;
     }
 
-    void FadeToMainMenu()
+    private void FadeToMainMenu()
     {
         _fadeIn.SetActive(true);
         Invoke("GoToMainMenu", 3f);
     }
 
-    void GoToMainMenu()
+    private void GoToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
